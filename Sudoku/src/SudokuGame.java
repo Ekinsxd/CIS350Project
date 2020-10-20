@@ -2,9 +2,9 @@
 import java.util.ArrayList;
 
 public class SudokuGame {
-    private int[][] board;
+    private final int[][] board;
     private GameStatus status;
-    private ArrayList undo = new ArrayList();
+    private final ArrayList undo = new ArrayList();
 
     public SudokuGame(int diff) {
         status = GameStatus.IN_PROGRESS;
@@ -15,7 +15,7 @@ public class SudokuGame {
 
     public void initBoard(int diff){
         board[0][0] = (int)(Math.random()*9+1);
-        solve(board);;
+        solve(board);
         int x =0;
         int r;
         int c;

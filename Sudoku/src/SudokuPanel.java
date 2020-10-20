@@ -10,11 +10,11 @@ public class SudokuPanel extends JPanel {
 	private JButton[][] board;
 	private int[][] iBoard;
 
-	private JButton quitButton;
+	private final JButton quitButton;
 	private JTextField helper;
 
-	private JButton undoButton;
-	private JButton giveupButton;
+	private final JButton undoButton;
+	private final JButton giveupButton;
 
 	private SudokuGame game;
 
