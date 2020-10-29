@@ -10,12 +10,13 @@ public class SudokuGame {
         status = GameStatus.IN_PROGRESS;
         board = new int[9][9];
         reset();
-        initBoard(diff);
+        //initBoard(diff);
     }
 
     private void initBoard(final int diff) {
-        board[0][0] = (int) (Math.random() * 9 + 1);
-        solve(board);
+        for (int i =0; i<10; i++){ //randomize board
+            
+        }
         int x = 0;
         int r;
         int c;
@@ -75,6 +76,14 @@ public class SudokuGame {
         return true;
     }
 
+    void setBoard(final int[][] board){
+        for (int r = 0; r < 9; r++) {
+            for (int c = 0; c < 9; c++) {
+                this.board[r][c] = board[r][c];
+            }
+        }
+    }
+
     private boolean validboard(final int[][] board) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -86,7 +95,7 @@ public class SudokuGame {
         return true;
     }
 
-    private boolean solve(final int[][] board) {
+    public boolean solve(final int[][] board) {
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
                 if (board[row][column] == 0) {
