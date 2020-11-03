@@ -14,7 +14,7 @@ public class SudokuGame {
     }
 
     private void initBoard(final int diff) {
-
+    //BOARD2.SETEDITABLE(T/F)
         int x = 0;
         int r;
         int c;
@@ -133,25 +133,20 @@ public class SudokuGame {
         return true;
     }
 
-    public void select(final int row, final int col) {
-        if (board[row][col] > 8) {
-            board[row][col] = 0;
-        } else {
-            board[row][col]++;
+    public void select(final int row, final int col, final int data) {
+        if (data >= 0 || data <= 9) {
+            board[row][col] = data;
+            int[] x = new int[3];
+            x[0] = row;
+            x[1] = col;
+            x[2] = board[row][col];
+            undo.add(x);
+            isWinner();
         }
-        int[] x = new int[2];
-        x[0] = row;
-        x[1] = col;
-        undo.add(x);
-        isWinner();
     }
 
-    private void undoSelect(final int row, final int col) {
-        if (board[row][col] < 1) {
-            board[row][col] = 9;
-        } else {
-            board[row][col]--;
-        }
+    private void undoSelect(final int row, final int col, final int data) {
+        board[row][col] = data;
     }
 
     private boolean isWinner() {
@@ -184,7 +179,7 @@ public class SudokuGame {
             return;
         }
         int[] x  = (int[]) undo.remove(undo.size() - 1);
-        undoSelect(x[0], x[1]);
+        undoSelect(x[0], x[1], x[2]);
     }
 
     private void reset(int[][] board) {

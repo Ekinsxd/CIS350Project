@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 public class SudokuPanel extends JPanel {
 
 	private JButton[][] board;
+	private JTextField[][] board2;
 	private int[][] iBoard;
 
 	private final JButton quitButton;
@@ -19,6 +20,8 @@ public class SudokuPanel extends JPanel {
 	private final JButton newGameButton;
 
 	private SudokuGame game;
+
+	int BOARD_SIZE = 9;
 
 	public SudokuPanel() {
 
@@ -48,21 +51,26 @@ public class SudokuPanel extends JPanel {
 		// create game, listeners
 		ButtonListener listener = new ButtonListener();
 
-		center.setLayout(new GridLayout(9, 9, 3, 2));
+		center.setLayout(new GridLayout(BOARD_SIZE, BOARD_SIZE, 3, 2));
 		Dimension temp = new Dimension(60, 60);
-		board = new JButton[9][9];
+		board2 = new JTextField[BOARD_SIZE][BOARD_SIZE];
 
-		for (int row = 0; row < 9; row++)
-			for (int col = 0; col < 9; col++) {
+		for (int row = 0; row < BOARD_SIZE; row++)
+			for (int col = 0; col < BOARD_SIZE; col++) {
 
 				Border thickBorder = new LineBorder(Color.black, 1);
-				board[row][col] = new JButton("");
-				board[row][col].setPreferredSize(temp);
-				board[row][col].setBorder(thickBorder);
-				board[row][col].setBackground(Color.white);
+				board2[row][col] = new JTextField();
+				board2[row][col].setPreferredSize(temp);
+				board2[row][col].setBorder(thickBorder);
+				board2[row][col].setBackground(Color.white);
+				board2[row][col].setHorizontalAlignment(JTextField.CENTER);
+				board2[row][col].setFont(new Font("Monospaced",Font.BOLD, 20));
 
-				board[row][col].addActionListener(listener);
-				center.add(board[row][col]);
+				if (game.getBoard()[row][col] != 0){
+					board2[row][col].setEditable(false);
+				}
+				board2[row][col].addActionListener(listener);
+				center.add(board2[row][col]);
 			}
 
 			// add all to contentPane
@@ -100,45 +108,45 @@ public class SudokuPanel extends JPanel {
 			for (int c = 0; c < game.getBoard().length; c++) {
 				if (game.getGameStatus() == GameStatus.HINT) {
 					if (iBoard[r][c] == 0){
-						board[r][c].setBackground(Color.white);
+						board2[r][c].setBackground(Color.white);
 					}
 					if (game.legalMove(r, c, iBoard[r][c]) && iBoard[r][c] != 0)
-						board[r][c].setBackground(Color.green);
+						board2[r][c].setBackground(Color.green);
 					else if (iBoard[r][c] != 0){
-						board[r][c].setBackground(Color.red);
+						board2[r][c].setBackground(Color.red);
 					}
 				}
-				else board[r][c].setBackground(Color.white);
+				else board2[r][c].setBackground(Color.white);
 				switch(iBoard[r][c]){
 					case 0:
-						board[r][c].setText("");
+						board2[r][c].setText("");
 						break;
 					case 1:
-						board[r][c].setText("1");
+						board2[r][c].setText("1");
 						break;
 					case 2:
-						board[r][c].setText("2");
+						board2[r][c].setText("2");
 						break;
 					case 3:
-						board[r][c].setText("3");
+						board2[r][c].setText("3");
 						break;
 					case 4:
-						board[r][c].setText("4");
+						board2[r][c].setText("4");
 						break;
 					case 5:
-						board[r][c].setText("5");
+						board2[r][c].setText("5");
 						break;
 					case 6:
-						board[r][c].setText("6");
+						board2[r][c].setText("6");
 						break;
 					case 7:
-						board[r][c].setText("7");
+						board2[r][c].setText("7");
 						break;
 					case 8:
-						board[r][c].setText("8");
+						board2[r][c].setText("8");
 						break;
 					case 9:
-						board[r][c].setText("9");
+						board2[r][c].setText("9");
 						break;
 
 
@@ -152,8 +160,8 @@ public class SudokuPanel extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			for (int r = 0; r < game.getBoard().length; r++)
 				for (int c = 0; c < game.getBoard().length; c++)
-					if (board[r][c] == e.getSource() && game.getGameStatus() != GameStatus.SOLVED && game.getGameStatus() != GameStatus.GIVE_UP && game.getGameStatus() != GameStatus.GAME_DONE) {
-                        game.select(r, c);
+					if (board2[r][c] == e.getSource() && game.getGameStatus() != GameStatus.SOLVED && game.getGameStatus() != GameStatus.GIVE_UP && game.getGameStatus() != GameStatus.GAME_DONE) {
+                        game.select(r, c, Integer.parseInt(board2[r][c].getText()));
                     }
 
 			displayBoard();
