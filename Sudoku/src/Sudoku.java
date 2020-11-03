@@ -14,8 +14,5 @@ public class Sudoku {
         frame.setSize(600,650);
         frame.setVisible(true);
     }
-
-
-
 }
 

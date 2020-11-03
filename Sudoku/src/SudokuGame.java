@@ -9,17 +9,37 @@ public class SudokuGame {
     public SudokuGame(final int diff) {
         status = GameStatus.IN_PROGRESS;
         board = new int[9][9];
-        reset();
-        //initBoard(diff);
+        reset(board);
+        initBoard(diff);
     }
 
     private void initBoard(final int diff) {
-        for (int i =0; i<10; i++){ //randomize board
-            
-        }
+
         int x = 0;
         int r;
         int c;
+        for (int i =0; i<10; i++){ //randomize board
+            r = (int) (Math.random() * 9);
+            c = (int) (Math.random() * 9);
+            if (board[r][c] != 0) {
+                i--;
+                continue;
+            }
+            board[r][c] = (int) (Math.random() * 9);
+            if (!legalMove(r, c, board[r][c])){
+                board[r][c] = 0;
+                i--;
+                continue;
+            }
+            if (i == 9){
+                solve(board);
+                if (!validboard(board)){
+                    reset(board);
+                    i = 0;
+                    continue;
+                }
+            }
+        }
         switch (diff) {
             case 3:
                 x = 60;
@@ -76,10 +96,10 @@ public class SudokuGame {
         return true;
     }
 
-    void setBoard(final int[][] board){
+    public void copyBoard(int[][] dest, int[][] source){
         for (int r = 0; r < 9; r++) {
             for (int c = 0; c < 9; c++) {
-                this.board[r][c] = board[r][c];
+                dest[r][c] = source[r][c];
             }
         }
     }
@@ -167,7 +187,7 @@ public class SudokuGame {
         undoSelect(x[0], x[1]);
     }
 
-    private void reset() {
+    private void reset(int[][] board) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 board[i][j] = 0;

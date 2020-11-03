@@ -90,7 +90,7 @@ public class SudokuPanel extends JPanel {
 			if (game.solve(game.getBoard()));
 			else
 			{
-				game.setBoard(iBoard);
+				game.copyBoard(game.getBoard(), iBoard);
 				game.setGameStatus(GameStatus.IN_PROGRESS);
 				JOptionPane.showMessageDialog(helper, "Board Cannot be Solved from current state.");
 			}
@@ -99,6 +99,9 @@ public class SudokuPanel extends JPanel {
 		for (int r = 0; r < game.getBoard().length; r++)
 			for (int c = 0; c < game.getBoard().length; c++) {
 				if (game.getGameStatus() == GameStatus.HINT) {
+					if (iBoard[r][c] == 0){
+						board[r][c].setBackground(Color.white);
+					}
 					if (game.legalMove(r, c, iBoard[r][c]) && iBoard[r][c] != 0)
 						board[r][c].setBackground(Color.green);
 					else if (iBoard[r][c] != 0){
@@ -186,7 +189,7 @@ public class SudokuPanel extends JPanel {
 			}
 
 			else if (giveupButton == e.getSource()) {
-				if (game.getGameStatus() == GameStatus.IN_PROGRESS)
+				if (game.getGameStatus() == GameStatus.IN_PROGRESS || game.getGameStatus() == GameStatus.HINT)
 					game.setGameStatus(GameStatus.GIVE_UP);
 				else game.setGameStatus(GameStatus.IN_PROGRESS);
 				displayBoard();
