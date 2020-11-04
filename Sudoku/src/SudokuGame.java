@@ -104,7 +104,7 @@ public class SudokuGame {
         }
     }
 
-    private boolean validboard(final int[][] board) {
+    public boolean validboard(final int[][] board) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (!legalMove(i, j, board[i][j])) {

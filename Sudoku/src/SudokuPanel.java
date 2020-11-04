@@ -39,12 +39,12 @@ public class SudokuPanel extends JPanel {
 		giveupButton = new JButton("Give Up");
 		newGameButton = new JButton("New Game");
 
-		resetBoardPanel();
+		initBoardPanel();
 		displayBoard();
 
 	}
 
-	private void resetBoardPanel () {
+	private void initBoardPanel () {
 
 		JPanel center = new JPanel();
 		JPanel bottom = new JPanel();
@@ -60,6 +60,7 @@ public class SudokuPanel extends JPanel {
 
 				Border thickBorder = new LineBorder(Color.black, 1);
 				board2[row][col] = new JTextField();
+				board2[row][col].setEditable(true);
 				board2[row][col].setPreferredSize(temp);
 				board2[row][col].setBorder(thickBorder);
 				board2[row][col].setBackground(Color.white);
@@ -91,6 +92,17 @@ public class SudokuPanel extends JPanel {
 
 	}
 
+	private void resetBoardPanel(){
+		for (int row = 0; row < BOARD_SIZE; row++)
+			for (int col = 0; col < BOARD_SIZE; col++) {
+				board2[row][col].setEditable(true);
+				board2[row][col].setText("");
+				if (game.getBoard()[row][col] != 0){
+					board2[row][col].setEditable(false);
+				}
+			}
+	}
+
 	private void displayBoard() {
 		iBoard = game.getBoard();
 
@@ -100,7 +112,6 @@ public class SudokuPanel extends JPanel {
 			{
 				game.copyBoard(game.getBoard(), iBoard);
 				game.setGameStatus(GameStatus.IN_PROGRESS);
-				JOptionPane.showMessageDialog(helper, "Board Cannot be Solved from current state.");
 			}
 		}
 
@@ -161,10 +172,19 @@ public class SudokuPanel extends JPanel {
 			for (int r = 0; r < game.getBoard().length; r++)
 				for (int c = 0; c < game.getBoard().length; c++)
 					if (board2[r][c] == e.getSource() && game.getGameStatus() != GameStatus.SOLVED && game.getGameStatus() != GameStatus.GIVE_UP && game.getGameStatus() != GameStatus.GAME_DONE) {
-                        game.select(r, c, Integer.parseInt(board2[r][c].getText()));
+						if (board2[r][c].getText().equals("")){
+							game.select(r, c, 0);
+							return;
+						}
+						if(Integer.parseInt(board2[r][c].getText()) <= 9 || Integer.parseInt(board2[r][c].getText()) >= 0){
+							game.select(r, c, Integer.parseInt(board2[r][c].getText()));
+						}
+						else {
+							board2[r][c].setText("");
+							game.select(r, c, 0);
+						}
                     }
 
-			displayBoard();
 
 			if (newGameButton == e.getSource()){
 				helper = new JTextField("");
@@ -173,14 +193,13 @@ public class SudokuPanel extends JPanel {
 					diff = Integer.parseInt(JOptionPane.showInputDialog(helper, "Type in a Difficulty (1 = Easy, 2 = Medium, 3 = Hard:"));
 				}
 				game = new SudokuGame(diff);
-				displayBoard();
+				resetBoardPanel();
 			}
 
 			else if (hintButton == e.getSource()) {
 				if (game.getGameStatus() == GameStatus.IN_PROGRESS)
 					game.setGameStatus(GameStatus.HINT);
 				else game.setGameStatus(GameStatus.IN_PROGRESS);
-				displayBoard();
 			}
 
 			else if (quitButton == e.getSource()){
@@ -188,29 +207,30 @@ public class SudokuPanel extends JPanel {
 			}
 
 			else if (game.getGameStatus() == GameStatus.GAME_DONE) {
-				displayBoard();
 			}
 
 			else if (undoButton == e.getSource()){
 				game.undoTurn();
-				displayBoard();
 			}
 
 			else if (giveupButton == e.getSource()) {
 				if (game.getGameStatus() == GameStatus.IN_PROGRESS || game.getGameStatus() == GameStatus.HINT)
-					game.setGameStatus(GameStatus.GIVE_UP);
-				else game.setGameStatus(GameStatus.IN_PROGRESS);
-				displayBoard();
-				JOptionPane.showMessageDialog(null, "Here is the solved board!\n Start a New Game to Play Again!");
-				game.setGameStatus(GameStatus.GAME_DONE);
+					if (game.solve(game.getBoard()) && game.validboard(game.getBoard())){
+						game.setGameStatus(GameStatus.GIVE_UP);
+						JOptionPane.showMessageDialog(null, "Here is the solved board!\n Start a New Game to Play Again!");
+					}
+					else {
+						game.setGameStatus(GameStatus.IN_PROGRESS);
+						JOptionPane.showMessageDialog(helper, "Board Cannot be Solved from current state.");
+					}
 			}
 
 
 			else if (game.getGameStatus() == GameStatus.SOLVED){
 				JOptionPane.showMessageDialog(null, "Congrats You Win!\n Start a New Game to Play Again!");
 				game.setGameStatus(GameStatus.GAME_DONE);
-				displayBoard();
 			}
+			displayBoard();
 		}
 	}
 }
