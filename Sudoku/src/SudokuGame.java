@@ -14,7 +14,6 @@ public class SudokuGame {
     }
 
     private void initBoard(final int diff) {
-    //BOARD2.SETEDITABLE(T/F)
         int x = 0;
         int r;
         int c;

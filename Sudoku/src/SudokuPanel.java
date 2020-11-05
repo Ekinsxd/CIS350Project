@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 
 public class SudokuPanel extends JPanel {
 
-	private JButton[][] board;
 	private JTextField[][] board2;
 	private int[][] iBoard;
 
@@ -121,8 +120,9 @@ public class SudokuPanel extends JPanel {
 					if (iBoard[r][c] == 0){
 						board2[r][c].setBackground(Color.white);
 					}
-					if (game.legalMove(r, c, iBoard[r][c]) && iBoard[r][c] != 0)
+					if (game.legalMove(r, c, iBoard[r][c]) && iBoard[r][c] != 0){
 						board2[r][c].setBackground(Color.green);
+					}
 					else if (iBoard[r][c] != 0){
 						board2[r][c].setBackground(Color.red);
 					}
@@ -131,6 +131,7 @@ public class SudokuPanel extends JPanel {
 				switch(iBoard[r][c]){
 					case 0:
 						board2[r][c].setText("");
+						board2[r][c].setBackground(Color.yellow);
 						break;
 					case 1:
 						board2[r][c].setText("1");
@@ -174,9 +175,8 @@ public class SudokuPanel extends JPanel {
 					if (board2[r][c] == e.getSource() && game.getGameStatus() != GameStatus.SOLVED && game.getGameStatus() != GameStatus.GIVE_UP && game.getGameStatus() != GameStatus.GAME_DONE) {
 						if (board2[r][c].getText().equals("")){
 							game.select(r, c, 0);
-							return;
 						}
-						if(Integer.parseInt(board2[r][c].getText()) <= 9 || Integer.parseInt(board2[r][c].getText()) >= 0){
+						else if(Integer.parseInt(board2[r][c].getText()) <= 9 || Integer.parseInt(board2[r][c].getText()) >= 0){
 							game.select(r, c, Integer.parseInt(board2[r][c].getText()));
 						}
 						else {
