@@ -8,11 +8,36 @@
  *****************************************************************/
 import java.util.ArrayList;
 
+/**
+* Stores and updates Sudoku game board. Game logic for 
+* valid moves are also preformed in this class.
+*
+* @author Matthew Davis, Ethan Tran, and Cole Hyink
+*/
 public class SudokuGame {
+    /**
+     * Board represents the Sudoku game board
+     */
     private final int[][] board;
+    
+    /**
+     * Status represents the status of the game
+     */
     private GameStatus status;
+    
+    /**
+     * Undo represents a list of all the previous moves so they
+     * can be undone if needed
+     */
     private final ArrayList undo = new ArrayList();
 
+    /************************************************************
+     * Constructor that sets the GameStatus to in progress, and 
+     * creates a 9x9 Sudoku board. The board is created with a 
+     * dificculty setting.
+     *
+     * @param diff The specified difficulty of the board created
+     ***********************************************************/
     public SudokuGame(final int diff) {
         status = GameStatus.IN_PROGRESS;
         board = new int[9][9];
@@ -20,6 +45,12 @@ public class SudokuGame {
         initBoard(diff);
     }
 
+    /************************************************************
+     * A method that initilizes a Sudoku board and randomly
+     * fills in a number of slots based on the difficulty. 
+     *
+     * @param diff The specified difficulty of the board created
+     ***********************************************************/
     private void initBoard(final int diff) {
         int x = 0;
         int r;
@@ -68,6 +99,16 @@ public class SudokuGame {
         }
     }
 
+    /************************************************************
+     * Method that checks if a move on a specified board space
+     * is valid.
+     *
+     * @param r Row number of board space
+     * @param c Column number of board space
+     * @param val Value trying change the board space value to
+     * @return Returns true if it is a valid move, false if
+     * it is an invalid move
+     ***********************************************************/
     public boolean legalMove(final int r, final int c, final int val) {
         if (val == 0) {
             return true;
@@ -102,6 +143,13 @@ public class SudokuGame {
         return true;
     }
 
+    /************************************************************
+     * Method that copies the values in one Sudoku board to
+     * another Sudoku board.
+     *
+     * @param dest Board that is copied to
+     * @param source Board that is copied from
+     ***********************************************************/
     public void copyBoard(int[][] dest, int[][] source){
         for (int r = 0; r < 9; r++) {
             for (int c = 0; c < 9; c++) {
@@ -110,6 +158,13 @@ public class SudokuGame {
         }
     }
 
+    /************************************************************
+     * Method that checks if a given Sodokuo game board is valid
+     *
+     * @param board Sudokuo game board to check
+     * @return Returns true if the board is valid,
+     * returns false if the board is false
+     ***********************************************************/
     public boolean validboard(final int[][] board) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -121,6 +176,13 @@ public class SudokuGame {
         return true;
     }
 
+    /************************************************************
+     * Method that solves the given Sudoku board
+     *
+     * @param board Sudokuo game board to solve
+     * @return Returns true if the board is solved,
+     * returns false if the board is unsolved
+     ***********************************************************/
     public boolean solve(final int[][] board) {
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
@@ -139,6 +201,15 @@ public class SudokuGame {
         return true;
     }
 
+    /************************************************************
+     * Method that selects a place on the board and updates it 
+     * with a new value. Then tracks the information to the undo
+     * list. Finally, it checks if the board is solved.
+     *
+     * @param row Row number of board space
+     * @param col Column number of board space
+     * @param data Data to add to specifed board space
+     ***********************************************************/
     public void select(final int row, final int col, final int data) {
         if (data >= 0 || data <= 9) {
             board[row][col] = data;
@@ -151,10 +222,26 @@ public class SudokuGame {
         }
     }
 
+    /************************************************************
+     * Method that undos the previous selection/move made by the
+     * player
+     *
+     * @param row Row number of board space
+     * @param col Column number of board space
+     * @param data Data to add to specifed board space
+     ***********************************************************/
     private void undoSelect(final int row, final int col, final int data) {
         board[row][col] = data;
     }
 
+     /************************************************************
+     * Method that determies if the board is solved and the
+     * player is a winner. GameStatus is updated to solved if
+     * the board is solved.
+     * 
+     * @return Returns true if the board is solved, false if the 
+     * board is unsolved
+     ***********************************************************/
     private boolean isWinner() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -167,19 +254,37 @@ public class SudokuGame {
         return true;
     }
 
+    /************************************************************
+     * Getter method that returns the game board
+     *
+     * @return Returns the current game board
+     ***********************************************************/
     public int[][] getBoard() {
         return board;
     }
 
+    /************************************************************
+     * Getter method that returns the current game status
+     *
+     * @return Returns the current game status
+     ***********************************************************/
     public GameStatus getGameStatus() {
         return status;
     }
 
+    /************************************************************
+     * Setter method that changes the current game status
+     *
+     * @param stat Status of the game you want to set to
+     ***********************************************************/
     public void setGameStatus(final GameStatus stat) {
         this.status = stat;
     }
 
-
+    /************************************************************
+     * Method that undos a turn made by the player. Undo
+     * turns are removed from the undo list.
+     ***********************************************************/
     public void undoTurn() {
         if (undo.size() < 1) {
             return;
@@ -188,6 +293,11 @@ public class SudokuGame {
         undoSelect(x[0], x[1], x[2]);
     }
 
+    /************************************************************
+     * Method that resets the game board to blank
+     *
+     * @param board Board to be reset
+     ***********************************************************/
     private void reset(int[][] board) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
