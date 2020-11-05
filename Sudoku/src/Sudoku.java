@@ -1,17 +1,11 @@
-/*****************************************************************
- Facade of the Sudoku game. Simple code to initialize the panel
- and let the game play.
-
- @author Ethan Tran, Matthew Davis, and Cole Hyink
- @version 2020.11.5
- *****************************************************************/
 import javax.swing.*;
 
-/**
- * A class that initizlies and constructs the Soduku GUI
- *
- * @author Matthew Davis, Ethan Tran, and Cole Hyink
- */
+/*****************************************************************
+* Facade of the Sudoku game. Simple code to initialize the panel
+* and let the game play.
+* @author Ethan Tran, Matthew Davis, and Cole Hyink
+* @version 2020.11.5
+*****************************************************************/
 public class Sudoku {
 
     /**
