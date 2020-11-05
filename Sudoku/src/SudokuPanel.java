@@ -1,3 +1,11 @@
+/*****************************************************************
+ Graphical representation of a 9x9 sudoku board with various
+ controls over the state of the game. The board is constrained
+ between 0-9.
+
+ @author Ethan Tran, Matthew Davis, and Cole Hyink
+ @version 2020.11.5
+ *****************************************************************/
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -22,12 +30,18 @@ public class SudokuPanel extends JPanel {
 
 	int BOARD_SIZE = 9;
 
+	/*****************************************************************
+	 Constructor creates a game of sudoku with the selected difficulty
+	 *****************************************************************/
+
 	public SudokuPanel() {
 
 		helper = new JTextField("");
-		int diff = Integer.parseInt(JOptionPane.showInputDialog(helper, "Type in a Difficulty (1 = Easy, 2 = Medium, 3 = Hard):"));
+		int diff = Integer.parseInt(JOptionPane.showInputDialog(helper,
+				"Type in a Difficulty (1 = Easy, 2 = Medium, 3 = Hard):"));
 		while (diff != 2 && diff != 1 && diff != 3 && diff != 666){
-			diff = Integer.parseInt(JOptionPane.showInputDialog(helper, "Type in a Difficulty (1 = Easy, 2 = Medium, 3 = Hard):"));
+			diff = Integer.parseInt(JOptionPane.showInputDialog(helper,
+					"Type in a Difficulty (1 = Easy, 2 = Medium, 3 = Hard):"));
 		}
 
 		game = new SudokuGame(diff);
@@ -42,6 +56,11 @@ public class SudokuPanel extends JPanel {
 		displayBoard();
 
 	}
+
+	/*****************************************************************
+	 Initialize GUI with the board given by the randomly generated
+	 board from the constructor.
+	 *****************************************************************/
 
 	private void initBoardPanel () {
 
@@ -91,6 +110,10 @@ public class SudokuPanel extends JPanel {
 
 	}
 
+	/*****************************************************************
+	 Sets all board text fields to empty.
+	 *****************************************************************/
+
 	private void resetBoardPanel(){
 		for (int row = 0; row < BOARD_SIZE; row++)
 			for (int col = 0; col < BOARD_SIZE; col++) {
@@ -101,6 +124,10 @@ public class SudokuPanel extends JPanel {
 				}
 			}
 	}
+
+	/*****************************************************************
+	 Update and Display the text fields when an action is executed
+	 *****************************************************************/
 
 	private void displayBoard() {
 		iBoard = game.getBoard();
@@ -167,12 +194,23 @@ public class SudokuPanel extends JPanel {
 
 	}
 
+	/*****************************************************************
+	 Class to watch if any actions are performed, if so, update the
+	 state of the game.
+	 *****************************************************************/
+
 	private class ButtonListener implements ActionListener {
+
+		/*****************************************************************
+		 Watch if any actions are performed, if so, update the state of
+		 the game.
+		 *****************************************************************/
 
 		public void actionPerformed(ActionEvent e) {
 			for (int r = 0; r < game.getBoard().length; r++)
 				for (int c = 0; c < game.getBoard().length; c++)
-					if (board2[r][c] == e.getSource() && game.getGameStatus() != GameStatus.SOLVED && game.getGameStatus() != GameStatus.GIVE_UP && game.getGameStatus() != GameStatus.GAME_DONE) {
+					if (board2[r][c] == e.getSource() && game.getGameStatus() != GameStatus.SOLVED
+							&& game.getGameStatus() != GameStatus.GIVE_UP && game.getGameStatus() != GameStatus.GAME_DONE) {
 						if (board2[r][c].getText().equals("")){
 							game.select(r, c, 0);
 						}

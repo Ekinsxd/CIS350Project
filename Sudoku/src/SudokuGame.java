@@ -1,4 +1,11 @@
+/*****************************************************************
+ Game Logic for the Sudoku Board. This class will be used inside
+ of the panel. A game object will be created inside of the panel
+ to be manipulated and displayed.
 
+ @author Ethan Tran, Matthew Davis, and Cole Hyink
+ @version 2020.11.5
+ *****************************************************************/
 import java.util.ArrayList;
 
 public class SudokuGame {
