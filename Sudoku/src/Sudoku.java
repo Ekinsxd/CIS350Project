@@ -15,14 +15,11 @@ public class Sudoku {
      */
     public static void main (String[] args)
     {
-        JFrame frame = new JFrame ("Sudoku");
+        JFrame frame = new SudokuPanel();
         frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+        //frame.getContentPane().add(frame);
 
-        SudokuPanel panel = new SudokuPanel();
-
-        frame.getContentPane().add(panel);
-
-        frame.setSize(600,650);
+        frame.setSize(600,675);
         frame.setVisible(true);
     }
 }

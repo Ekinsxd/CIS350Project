@@ -2,23 +2,22 @@ import java.io.*;
 
 class SavedGame implements Serializable {
     private static final long serialVersionUID = 1L;
-    transient SudokuGame game;
+    //transient SudokuGame game;
 
-    public SavedGame(SudokuGame inputGame) {
-        game = inputGame;
+    public SavedGame() {
+        //SudokuGame savedGame = inputGame;
     }
 
-    public void save() {
-        SavedGame gameSave = new SavedGame(game);
-        String filename = "savedgame.txt";
+    public void save(String filename, Object o) {
+        //SavedGame gameSave = new SavedGame(game);
+        //String filename = "savedgame.txt";
         try {
             FileOutputStream file = new FileOutputStream(filename); 
             ObjectOutputStream out = new ObjectOutputStream(file); 
 
-            out.writeObject(gameSave); 
+            out.writeObject(o);
 
-            out.close(); 
-            file.close(); 
+            out.close();
 
             System.out.println("Object has been serialized\n" + "Data before Deserialization.");
         }
@@ -28,22 +27,19 @@ class SavedGame implements Serializable {
         } 
     }
 
-    public void load() {
-        SavedGame gameSave;
-        String filename = "savedgame.txt";
+    public Object load(String filename) {
+        //SavedGame gameSave;
+        //String filename = "savedgame.txt";
+        SudokuGame LoadedGame = null;
         try { 
             // Reading the object from a file 
             FileInputStream file = new FileInputStream (filename); 
             ObjectInputStream in = new ObjectInputStream(file); 
   
-            // Method for deserialization of object 
-            gameSave = (SavedGame)in.readObject();
+            // Method for deserialization of object, cast to game type
+            LoadedGame = (SudokuGame) in.readObject();
   
-            in.close(); 
-            file.close();
-
-            game = gameSave.game;
-
+            in.close();
             System.out.println("Object has been deserialized\n" + "Data after Deserialization.");
         }
 
@@ -54,5 +50,6 @@ class SavedGame implements Serializable {
         catch (ClassNotFoundException ex) { 
             System.out.println("ClassNotFoundException is caught"); 
         }
+        return LoadedGame;
     }
 }    
