@@ -154,7 +154,9 @@ public class SudokuPanel extends JPanel {
 						board2[r][c].setBackground(Color.red);
 					}
 				}
-				else board2[r][c].setBackground(Color.white);
+				else if (game.getGameStatus() != GameStatus.GAME_DONE && game.getGameStatus() != GameStatus.GIVE_UP){
+					board2[r][c].setBackground(Color.white);
+				}
 				switch(iBoard[r][c]){
 					case 0:
 						board2[r][c].setText("");
@@ -214,7 +216,7 @@ public class SudokuPanel extends JPanel {
 						if (board2[r][c].getText().equals("")){
 							game.select(r, c, 0);
 						}
-						else if(Integer.parseInt(board2[r][c].getText()) <= 9 || Integer.parseInt(board2[r][c].getText()) >= 0){
+						else if(Integer.parseInt(board2[r][c].getText()) <= 9 && Integer.parseInt(board2[r][c].getText()) > 0){
 							game.select(r, c, Integer.parseInt(board2[r][c].getText()));
 						}
 						else {
@@ -222,7 +224,6 @@ public class SudokuPanel extends JPanel {
 							game.select(r, c, 0);
 						}
                     }
-
 
 			if (newGameButton == e.getSource()){
 				helper = new JTextField("");
@@ -234,17 +235,16 @@ public class SudokuPanel extends JPanel {
 				resetBoardPanel();
 			}
 
-			else if (hintButton == e.getSource()) {
-				if (game.getGameStatus() == GameStatus.IN_PROGRESS)
-					game.setGameStatus(GameStatus.HINT);
-				else game.setGameStatus(GameStatus.IN_PROGRESS);
-			}
-
 			else if (quitButton == e.getSource()){
 				System.exit(0);
 			}
 
-			else if (game.getGameStatus() == GameStatus.GAME_DONE) {
+			else if (game.getGameStatus() == GameStatus.GAME_DONE);
+
+			else if (hintButton == e.getSource()) {
+				if (game.getGameStatus() == GameStatus.IN_PROGRESS)
+					game.setGameStatus(GameStatus.HINT);
+				else game.setGameStatus(GameStatus.IN_PROGRESS);
 			}
 
 			else if (undoButton == e.getSource()){
@@ -255,6 +255,7 @@ public class SudokuPanel extends JPanel {
 				if (game.getGameStatus() == GameStatus.IN_PROGRESS || game.getGameStatus() == GameStatus.HINT)
 					if (game.solve(game.getBoard()) && game.validboard(game.getBoard())){
 						game.setGameStatus(GameStatus.GIVE_UP);
+						displayBoard();
 						JOptionPane.showMessageDialog(null, "Here is the solved board!\n Start a New Game to Play Again!");
 					}
 					else {

@@ -140,12 +140,12 @@ public class SudokuGame {
     }
 
     public void select(final int row, final int col, final int data) {
-        if (data >= 0 || data <= 9) {
-            board[row][col] = data;
+        if (data >= 0 && data <= 9) {
             int[] x = new int[3];
             x[0] = row;
             x[1] = col;
             x[2] = board[row][col];
+            board[row][col] = data;
             undo.add(x);
             isWinner();
         }
