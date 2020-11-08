@@ -1,80 +1,58 @@
-import java.io.*; 
-  
+import java.io.*;
+
 class SavedGame implements Serializable {
     private static final long serialVersionUID = 1L;
-    transient SudokuGame game; 
-  
-// Default constructor 
-public SavedGame(SudokuGame game) { 
-    this.game = game;  
-} 
-  
-public class SerialExample { 
-    public void printdata(SavedGame object1) { 
-        System.out.println("name = " + object1.game); 
-    } 
-  
-public void main(String[] args) 
-    { 
-        SavedGame object = new SavedGame(game); 
-        String filename = "savedgame.txt"; 
-  
-        // Serialization 
-        try { 
-  
-            // Saving of object in a file 
-            FileOutputStream file = new FileOutputStream 
-                                           (filename); 
-            ObjectOutputStream out = new ObjectOutputStream 
-                                           (file); 
-  
-            // Method for serialization of object 
-            out.writeObject(object); 
-  
+    transient SudokuGame game;
+
+    public SavedGame(SudokuGame inputGame) {
+        game = inputGame;
+    }
+
+    public void save() {
+        SavedGame gameSave = new SavedGame(game);
+        String filename = "savedgame.txt";
+        try {
+            FileOutputStream file = new FileOutputStream(filename); 
+            ObjectOutputStream out = new ObjectOutputStream(file); 
+
+            out.writeObject(gameSave); 
+
             out.close(); 
             file.close(); 
-  
-            System.out.println("Object has been serialized\n"
-                              + "Data before Deserialization."); 
-            printdata(object); 
-  
-        } 
-  
+
+            System.out.println("Object has been serialized\n" + "Data before Deserialization.");
+        }
+
         catch (IOException ex) { 
             System.out.println("IOException is caught"); 
         } 
-  
-        object = null; 
-  
-        // Deserialization 
+    }
+
+    public void load() {
+        SavedGame gameSave;
+        String filename = "savedgame.txt";
         try { 
-  
             // Reading the object from a file 
-            FileInputStream file = new FileInputStream 
-                                         (filename); 
-            ObjectInputStream in = new ObjectInputStream 
-                                         (file); 
+            FileInputStream file = new FileInputStream (filename); 
+            ObjectInputStream in = new ObjectInputStream(file); 
   
             // Method for deserialization of object 
-            object = (SavedGame)in.readObject(); 
+            gameSave = (SavedGame)in.readObject();
   
             in.close(); 
-            file.close(); 
-            System.out.println("Object has been deserialized\n"
-                                + "Data after Deserialization."); 
-            printdata(object); 
-  
-            // System.out.println("z = " + object1.z); 
-        } 
-  
+            file.close();
+
+            game = gameSave.game;
+
+            System.out.println("Object has been deserialized\n" + "Data after Deserialization.");
+        }
+
         catch (IOException ex) { 
             System.out.println("IOException is caught"); 
-        } 
+        }
   
         catch (ClassNotFoundException ex) { 
-            System.out.println("ClassNotFoundException" + 
-                                " is caught"); 
-        } 
-    } 
+            System.out.println("ClassNotFoundException is caught"); 
+        }
     }
-}
+}    
