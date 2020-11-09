@@ -39,7 +39,7 @@ public class SudokuPanel extends JFrame implements ActionListener{
 	int BOARD_SIZE = 9;
 	//retarded way to choose filename but ensures randomness
 	//probably do it with a clock instead
-	String fileName = "SudokuGame" + ((int) (Math.random() * 255) + 1);
+	String fileName = "SudokuGame" + ((int) (Math.random() * 255) + 1) + ".ser";
 
 	/*****************************************************************
 	 Constructor creates a game of sudoku with the selected difficulty
