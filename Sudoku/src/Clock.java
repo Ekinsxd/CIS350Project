@@ -23,7 +23,7 @@ public class Clock {
         Calendar rite = Calendar.getInstance();
         final int startHour = rite.get(Calendar.HOUR_OF_DAY);
         final int startMinute = rite.get(Calendar.MINUTE);
-        final int startSecond = rite.get(Calendar.SECOND);
+        int startSecond = rite.get(Calendar.SECOND);
 
         /*
         aHour, bMinute, cSecond adds a 0 if it's less than
@@ -63,6 +63,9 @@ public class Clock {
             second -= startSecond;
             if (hour > 12) {
                 hour = hour - 12;
+            }
+            if (second == 0) {
+                startSecond = 0;
             }
 
             if (hour < 10) {  
