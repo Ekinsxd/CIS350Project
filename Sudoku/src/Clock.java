@@ -64,7 +64,7 @@ public class Clock {
             if (hour > 12) {
                 hour = hour - 12;
             }
-            if (second == 0) {
+            if (second > startSecond) {
                 startSecond = 0;
             }
 
