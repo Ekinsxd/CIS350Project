@@ -89,6 +89,10 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 	private void initBoardPanel () {
 
 		JPanel center = new JPanel();
+		JPanel clock = new JPanel();
+		Clock.SimpleClock timer = new Clock.SimpleClock();
+		clock.add(timer);
+
 		JPanel bottom = new JPanel();
 		// create game, listeners
 		//ButtonListener listener = new ButtonListener();
@@ -119,6 +123,7 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 			// add all to contentPane
 			add (center, BorderLayout.CENTER);
 			add (bottom, BorderLayout.SOUTH);
+			add (clock, BorderLayout.EAST);
 
 		undoButton.addActionListener(this);
 		quitButton.addActionListener(this);

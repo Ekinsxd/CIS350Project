@@ -17,7 +17,19 @@ public class Clock {
 
     static class SimpleClock extends JPanel {  
         String stringTime;  
-        int hour, minute, second;  
+        int hour, minute, second;
+
+
+        Calendar rite = Calendar.getInstance();
+        final int startHour = rite.get(Calendar.HOUR_OF_DAY);
+        final int startMinute = rite.get(Calendar.MINUTE);
+        final int startSecond = rite.get(Calendar.SECOND);
+
+        /*
+        aHour, bMinute, cSecond adds a 0 if it's less than
+        10 so it stays a consistent 00:00:00 format.
+        or else it'll be 0:0:0 if all below 10
+         */
         String aHour = "";  
         String bMinute = "";  
         String cSecond = "";  
@@ -45,7 +57,13 @@ public class Clock {
             Calendar rite = Calendar.getInstance();  
             hour = rite.get(Calendar.HOUR_OF_DAY);  
             minute = rite.get(Calendar.MINUTE);  
-            second = rite.get(Calendar.SECOND);  
+            second = rite.get(Calendar.SECOND);
+            hour -= startHour;
+            minute -= startMinute;
+            second -= startSecond;
+            if (hour > 12) {
+                hour = hour - 12;
+            }
 
             if (hour < 10) {  
                 this.aHour = "0";  
@@ -69,9 +87,9 @@ public class Clock {
             setStringTime(aHour + hour + ":" + bMinute + minute + ":" + cSecond + second);  
             v.setColor(Color.BLACK);  
             int length = Number(this.getWidth(), this.getHeight());  
-            Font Font1 = new Font("SansSerif", Font.PLAIN, length / 5);  
-            v.setFont(Font1);  
-            v.drawString(stringTime, (int) length / 6, length / 2);  
+            Font Font1 = new Font("SansSerif", Font.PLAIN, length / 20);
+            v.setFont(Font1);
+            v.drawString(stringTime, (int) length - 50, length / 15);
         }
 
         @Override  
