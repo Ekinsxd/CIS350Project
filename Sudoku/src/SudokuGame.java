@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /*****************************************************************
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 * @author Ethan Tran, Matthew Davis, and Cole Hyink
 * @version 2020.11.5
 ******************************************************************/
-public class SudokuGame {
+public class SudokuGame implements Serializable {
     /**
      * Board represents the Sudoku game board
      */

@@ -12,8 +12,9 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 
-public class SudokuPanel extends JFrame implements ActionListener{
+public class SudokuPanel extends JFrame implements ActionListener, Serializable {
 
 	private JTextField[][] board2;
 	private int[][] iBoard;
@@ -215,7 +216,7 @@ public class SudokuPanel extends JFrame implements ActionListener{
 				}
 			}
 		if (game.getGameStatus() != GameStatus.GAME_DONE && game.getGameStatus() != GameStatus.GIVE_UP){
-			save.save(fileName, board2);
+			save.save(fileName, game);
 		}
 	}
 
@@ -233,7 +234,7 @@ public class SudokuPanel extends JFrame implements ActionListener{
 			if (status == JFileChooser.APPROVE_OPTION) {
 				String filename = chooser.getSelectedFile().getAbsolutePath();
 				if (openSerItem == e.getSource()){
-					save.load(filename);
+					game = save.load(filename);
 					fileName = filename;
 				}
 			}

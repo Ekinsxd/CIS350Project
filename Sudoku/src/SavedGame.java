@@ -1,4 +1,10 @@
 import java.io.*;
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 class SavedGame implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -8,7 +14,7 @@ class SavedGame implements Serializable {
         //SudokuGame savedGame = inputGame;
     }
 
-    public void save(String filename, Object o) {
+    public void save(String filename, SudokuGame o) {
         //SavedGame gameSave = new SavedGame(game);
         //String filename = "savedgame.txt";
         try {
@@ -27,7 +33,7 @@ class SavedGame implements Serializable {
         } 
     }
 
-    public Object load(String filename) {
+    public SudokuGame load(String filename) {
         //SavedGame gameSave;
         //String filename = "savedgame.txt";
         SudokuGame LoadedGame = null;
