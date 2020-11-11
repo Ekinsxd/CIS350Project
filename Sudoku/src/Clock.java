@@ -1,13 +1,13 @@
 import java.awt.*;
 import java.io.Serializable;
 import java.util.*;
-import javax.swing.*;  
-import java.awt.event.ActionListener;  
-import javax.swing.Timer;  
+import javax.swing.*;
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 
 public class Clock {
-    public static void main(String[] args) {  
+    public static void main(String[] args) {
         //JPanel clockPanel = new JPanel();
         //SimpleClock clock1 = new SimpleClock();
         //clockPanel.add(clock1);
@@ -15,7 +15,7 @@ public class Clock {
     }
 
     static class SimpleClock extends JPanel implements Serializable {
-        String stringTime;  
+        String stringTime;
         int hour, minute, second;
 
         /*
@@ -23,23 +23,23 @@ public class Clock {
         10 so it stays a consistent 00:00:00 format.
         or else it'll be 0:0:0 if all below 10
          */
-        String aHour = "";  
-        String bMinute = "";  
-        String cSecond = "";  
+        String aHour = "";
+        String bMinute = "";
+        String cSecond = "";
 
-        public void setStringTime(String abc) {  
-            this.stringTime = abc;  
+        public void setStringTime(String abc) {
+            this.stringTime = abc;
         }
 
         SimpleClock() {  //make a timer to update every 1000 milliseconds
             Timer t = new Timer(1000, new ActionListener() {
-                public void actionPerformed(ActionEvent e) {  
+                public void actionPerformed(ActionEvent e) {
                     repaint();
                     second++;
                     timeHandler();
-                }  
-            });  
-            t.start();  
+                }
+            });
+            t.start();
         }
 
         private void timeHandler(){// no support for days, the tiemr will not count after the game had been closed
@@ -53,8 +53,8 @@ public class Clock {
             }
         }
 
-        @Override  
-        public void paintComponent(Graphics v) {  
+        @Override
+        public void paintComponent(Graphics v) {
             super.paintComponent(v);
 //            Calendar rite = Calendar.getInstance();
 //            hour = rite.get(Calendar.HOUR_OF_DAY);
@@ -92,9 +92,9 @@ public class Clock {
             v.drawString(stringTime, (int)(this.getWidth()/2.33), 20);
         }
 
-        @Override  
-        public Dimension getPreferredSize() {  
+        @Override
+        public Dimension getPreferredSize() {
             return new Dimension(600, 20);
         }
-    }  
-}  
+    }
+}
