@@ -27,6 +27,8 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 	private final JButton giveupButton;
 	private final JButton newGameButton;
 
+	private JPanel clock;
+
 	/**
 	 * Holds menu bar
 	 */
@@ -66,15 +68,17 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 		newGameButton = new JButton("New Game");
 
 		menus = new JMenuBar();
-		fileMenu = new JMenu("File");
-		openSerItem = new JMenuItem("Open File");
+		fileMenu = new JMenu("Load");
+		openSerItem = new JMenuItem("Load Game");
 
 		fileMenu.add(openSerItem);
 		menus.add(fileMenu);
-
 		openSerItem.addActionListener(this);
-
 		setJMenuBar(menus);
+
+		clock = new JPanel();
+
+		this.setTitle(fileName);
 
 		initBoardPanel();
 		displayBoard();
@@ -88,7 +92,6 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 
 	private void initBoardPanel () {
 
-		JPanel clock = new JPanel();
 		Clock.SimpleClock timer = new Clock.SimpleClock();
 		clock.add(timer);
 
@@ -152,6 +155,9 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 					board2[row][col].setEditable(false);
 				}
 			}
+		clock.remove(0);
+		Clock.SimpleClock timer = new Clock.SimpleClock();
+		clock.add(timer);
 	}
 
 	/*****************************************************************
@@ -232,6 +238,8 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+
+
 
 		if (openSerItem == e.getSource()) {
 			JFileChooser chooser = new JFileChooser();

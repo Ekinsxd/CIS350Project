@@ -7,13 +7,6 @@ import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 
 public class Clock {
-    public static void main(String[] args) {
-        //JPanel clockPanel = new JPanel();
-        //SimpleClock clock1 = new SimpleClock();
-        //clockPanel.add(clock1);
-        //clockPanel.setVisible(true);
-    }
-
     static class SimpleClock extends JPanel implements Serializable {
         String stringTime;
         int hour, minute, second, day;
@@ -26,10 +19,6 @@ public class Clock {
         String strHour = "";
         String strMinute = "";
         String strSecond = "";
-
-        public void setStringTime(String abc) {
-            this.stringTime = abc;
-        }
 
         SimpleClock() {  //make a timer to update every 1000 milliseconds
             Timer t = new Timer(1000, new ActionListener() {
@@ -85,7 +74,7 @@ public class Clock {
             if (second >= 10) {
                 this.strSecond = "";
             }
-            setStringTime(day + ":" + strHour + hour + ":" + strMinute + minute + ":" + strSecond + second);
+            stringTime = (day + ":" + strHour + hour + ":" + strMinute + minute + ":" + strSecond + second);
             v.setColor(Color.BLACK);
             Font Font1 = new Font("ComicSans", Font.BOLD, 18);
             v.setFont(Font1);
