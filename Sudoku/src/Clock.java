@@ -16,16 +16,16 @@ public class Clock {
 
     static class SimpleClock extends JPanel implements Serializable {
         String stringTime;
-        int hour, minute, second;
+        int hour, minute, second, day;
 
         /*
-        aHour, bMinute, cSecond adds a 0 if it's less than
+        strHour, strMinute, strSecond adds a 0 if it's less than
         10 so it stays a consistent 00:00:00 format.
         or else it'll be 0:0:0 if all below 10
          */
-        String aHour = "";
-        String bMinute = "";
-        String cSecond = "";
+        String strHour = "";
+        String strMinute = "";
+        String strSecond = "";
 
         public void setStringTime(String abc) {
             this.stringTime = abc;
@@ -51,6 +51,10 @@ public class Clock {
                 minute = 0;
                 hour++;
             }
+            if (hour >= 24){
+                hour = 0;
+                day++;
+            }
         }
 
         @Override
@@ -63,29 +67,25 @@ public class Clock {
 //            hour -= startHour;
 //            minute -= startMinute;
 //            second -= startSecond;
-            if (hour > 12) {
-                hour = hour - 12;
-            }
-
             if (hour < 10) {
-                this.aHour = "0";
+                this.strHour = "0";
             }
             if (hour >= 10) {
-                this.aHour = "";
+                this.strHour = "";
             }
             if (minute < 10) {
-                this.bMinute = "0";
+                this.strMinute = "0";
             }
             if (minute >= 10) {
-                this.bMinute = "";
+                this.strMinute = "";
             }
             if (second < 10) {
-                this.cSecond = "0";
+                this.strSecond = "0";
             }
             if (second >= 10) {
-                this.cSecond = "";
+                this.strSecond = "";
             }
-            setStringTime(aHour + hour + ":" + bMinute + minute + ":" + cSecond + second);
+            setStringTime(day + ":" + strHour + hour + ":" + strMinute + minute + ":" + strSecond + second);
             v.setColor(Color.BLACK);
             Font Font1 = new Font("ComicSans", Font.BOLD, 18);
             v.setFont(Font1);
