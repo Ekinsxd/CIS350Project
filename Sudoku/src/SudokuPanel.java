@@ -156,6 +156,16 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 
 	}
 
+	private  void setEditable(){
+		for (int row = 0; row < BOARD_SIZE; row++)
+			for (int col = 0; col < BOARD_SIZE; col++) {
+				board2[row][col].setEditable(false);
+				if (game.getInitBoard()[row][col] == 1){
+					board2[row][col].setEditable(true);
+				}
+			}
+	}
+
 	/*****************************************************************
 	 Sets all board text fields to empty.
 	 *****************************************************************/
@@ -262,6 +272,7 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 				if (openSerItem == e.getSource()){
 					game = (SudokuGame) save.load(filename);
 					fileName = filename;
+					setEditable();
 				}
 			}
 		}

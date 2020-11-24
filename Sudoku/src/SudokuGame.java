@@ -14,7 +14,14 @@ public class SudokuGame implements Serializable {
      * Board represents the Sudoku game board
      */
     private final int[][] board;
-    
+
+    /**
+     * Board represents the initial Sudoku game board
+     */
+    private final int[][] initboard;
+
+    final int BOARD_SIZE = 9;
+
     /**
      * Status represents the status of the game
      */
@@ -35,7 +42,8 @@ public class SudokuGame implements Serializable {
      ***********************************************************/
     public SudokuGame(final int diff) {
         status = GameStatus.IN_PROGRESS;
-        board = new int[9][9];
+        board = new int[BOARD_SIZE][BOARD_SIZE];
+        initboard = new int [BOARD_SIZE][BOARD_SIZE];
         reset(board);
         initBoard(diff);
     }
@@ -51,19 +59,19 @@ public class SudokuGame implements Serializable {
         int r;
         int c;
         for (int i =0; i<10; i++){ //randomize board
-            r = (int) (Math.random() * 9);
-            c = (int) (Math.random() * 9);
+            r = (int) (Math.random() * BOARD_SIZE);
+            c = (int) (Math.random() * BOARD_SIZE);
             if (board[r][c] != 0) {
                 i--;
                 continue;
             }
-            board[r][c] = (int) (Math.random() * 9);
+            board[r][c] = (int) (Math.random() * BOARD_SIZE);
             if (!legalMove(r, c, board[r][c])){
                 board[r][c] = 0;
                 i--;
                 continue;
             }
-            if (i == 9){
+            if (i == BOARD_SIZE){
                 solve(board);
                 if (!validboard(board)){
                     reset(board);
@@ -85,11 +93,12 @@ public class SudokuGame implements Serializable {
                 break;
         }
         while (x > 0) {
-            r = (int) (Math.random() * 9);
-            c = (int) (Math.random() * 9);
+            r = (int) (Math.random() * BOARD_SIZE);
+            c = (int) (Math.random() * BOARD_SIZE);
             if (board[r][c] != 0) {
                 x--;
                 board[r][c] = 0;
+                initboard[r][c] = 1;
             }
         }
     }
@@ -108,7 +117,7 @@ public class SudokuGame implements Serializable {
         if (val == 0) {
             return true;
         }
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < BOARD_SIZE; i++) {
             if (i != c) {
                 if (board[r][i] == val) {
                     return false;
@@ -146,8 +155,8 @@ public class SudokuGame implements Serializable {
      * @param source Board that is copied from
      ***********************************************************/
     public void copyBoard(int[][] dest, int[][] source){
-        for (int r = 0; r < 9; r++) {
-            for (int c = 0; c < 9; c++) {
+        for (int r = 0; r < BOARD_SIZE; r++) {
+            for (int c = 0; c < BOARD_SIZE; c++) {
                 dest[r][c] = source[r][c];
             }
         }
@@ -160,8 +169,8 @@ public class SudokuGame implements Serializable {
      * returns false if the board is false
      ***********************************************************/
     public boolean isFilledBoard(final int[][] board) {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
                 if (board[i][j] == 0) {
                     return false;
                 }
@@ -179,8 +188,8 @@ public class SudokuGame implements Serializable {
      * returns false if the board is false
      ***********************************************************/
     public boolean validboard(final int[][] board) {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
                 if (!legalMove(i, j, board[i][j])) {
                     return false;
                 }
@@ -197,8 +206,8 @@ public class SudokuGame implements Serializable {
      * returns false if the board is unsolved
      ***********************************************************/
     public boolean solve(final int[][] board) {
-        for (int row = 0; row < 9; row++) {
-            for (int column = 0; column < 9; column++) {
+        for (int row = 0; row < BOARD_SIZE; row++) {
+            for (int column = 0; column < BOARD_SIZE; column++) {
                 if (board[row][column] == 0) {
                     for (int k = 1; k <= 9; k++) {
                         board[row][column] = k;
@@ -244,8 +253,8 @@ public class SudokuGame implements Serializable {
      * board is unsolved
      ***********************************************************/
     private boolean isWinner() {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
                 if (board[i][j] == 0 || !legalMove(i, j, board[i][j])) {
                     return false;
                 }
@@ -262,6 +271,15 @@ public class SudokuGame implements Serializable {
      ***********************************************************/
     public int[][] getBoard() {
         return board;
+    }
+
+    /************************************************************
+     * Getter method that returns the initial board
+     *
+     * @return Returns the current game board
+     ***********************************************************/
+    public int[][] getInitBoard() {
+        return initboard;
     }
 
     /************************************************************
@@ -300,8 +318,8 @@ public class SudokuGame implements Serializable {
      * @param board Board to be reset
      ***********************************************************/
     private void reset(int[][] board) {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
                 board[i][j] = 0;
             }
         }
