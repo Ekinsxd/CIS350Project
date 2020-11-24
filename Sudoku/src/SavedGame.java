@@ -14,7 +14,7 @@ class SavedGame implements Serializable {
         //SudokuGame savedGame = inputGame;
     }
 
-    public void save(String filename, SudokuGame o) {
+    public void save(String filename, Object o) {
         //SavedGame gameSave = new SavedGame(game);
         //String filename = "savedgame.txt";
         try {
@@ -33,17 +33,17 @@ class SavedGame implements Serializable {
         } 
     }
 
-    public SudokuGame load(String filename) {
+    public Object load(String filename) {
         //SavedGame gameSave;
         //String filename = "savedgame.txt";
-        SudokuGame LoadedGame = null;
+        Object LoadedGame = null;
         try { 
             // Reading the object from a file 
             FileInputStream file = new FileInputStream (filename); 
             ObjectInputStream in = new ObjectInputStream(file); 
   
             // Method for deserialization of object, cast to game type
-            LoadedGame = (SudokuGame) in.readObject();
+            LoadedGame = in.readObject();
   
             in.close();
             System.out.println("Object has been deserialized\n" + "Data after Deserialization.");
@@ -58,4 +58,4 @@ class SavedGame implements Serializable {
         }
         return LoadedGame;
     }
-}    
+}

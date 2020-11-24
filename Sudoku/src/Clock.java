@@ -10,6 +10,7 @@ public class Clock {
     static class SimpleClock extends JPanel implements Serializable {
         String stringTime;
         int hour, minute, second, day;
+        Timer t;
 
         /*
         strHour, strMinute, strSecond adds a 0 if it's less than
@@ -21,7 +22,7 @@ public class Clock {
         String strSecond = "";
 
         SimpleClock() {  //make a timer to update every 1000 milliseconds
-            Timer t = new Timer(1000, new ActionListener() {
+            t = new Timer(1000, new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     repaint();
                     second++;
@@ -29,6 +30,10 @@ public class Clock {
                 }
             });
             t.start();
+        }
+
+        public void stopTimer(){
+            t.stop();
         }
 
         private void timeHandler(){// no support for days, the tiemr will not count after the game had been closed
@@ -44,6 +49,10 @@ public class Clock {
                 hour = 0;
                 day++;
             }
+        }
+
+        public String getStringTime() {
+            return stringTime;
         }
 
         @Override

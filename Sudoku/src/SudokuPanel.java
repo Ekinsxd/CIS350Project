@@ -13,6 +13,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
+import java.util.*;
 
 public class SudokuPanel extends JFrame implements ActionListener, Serializable {
 
@@ -40,9 +41,12 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 	private SavedGame save;
 
 	int BOARD_SIZE = 9;
+	Clock.SimpleClock timer = new Clock.SimpleClock();
 	//retarded way to choose filename but ensures randomness
 	//probably do it with a clock instead
-	String fileName = "SudokuGame" + ((int) (Math.random() * 255) + 1) + ".ser";
+	String fileName = "SudokuGame" + ((int) (Math.random() * 65535) + 1) + ".ser";
+	String leaderString = "LeaderBoardSave.ser";
+	private ArrayList<String> LeaderBoard = null;
 
 	/*****************************************************************
 	 Constructor creates a game of sudoku with the selected difficulty
@@ -60,6 +64,14 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 
 		game = new SudokuGame(diff);
 		save = new SavedGame();
+
+		try {
+			LeaderBoard = (ArrayList<String>) save.load(leaderString);
+		}
+		catch (NullPointerException e) {
+			LeaderBoard = new ArrayList<String>();
+		}
+
 
 		quitButton = new JButton("Quit Game");
 		undoButton = new JButton("Undo");
@@ -92,7 +104,7 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 
 	private void initBoardPanel () {
 
-		Clock.SimpleClock timer = new Clock.SimpleClock();
+		timer = new Clock.SimpleClock();
 		clock.add(timer);
 
 		JPanel center = new JPanel();
@@ -155,9 +167,9 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 					board2[row][col].setEditable(false);
 				}
 			}
-		clock.remove(0);
-		Clock.SimpleClock timer = new Clock.SimpleClock();
+		timer = new Clock.SimpleClock();
 		clock.add(timer);
+		clock.remove(0);
 	}
 
 	/*****************************************************************
@@ -247,7 +259,7 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 			if (status == JFileChooser.APPROVE_OPTION) {
 				String filename = chooser.getSelectedFile().getAbsolutePath();
 				if (openSerItem == e.getSource()){
-					game = save.load(filename);
+					game = (SudokuGame) save.load(filename);
 					fileName = filename;
 				}
 			}
@@ -304,6 +316,7 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 			if (game.getGameStatus() == GameStatus.IN_PROGRESS || game.getGameStatus() == GameStatus.HINT)
 				if (game.solve(game.getBoard()) && game.validboard(game.getBoard())){
 					game.setGameStatus(GameStatus.GIVE_UP);
+					timer.stopTimer();
 					displayBoard();
 					JOptionPane.showMessageDialog(null, "Here is the solved board!\n Start a New Game to Play Again!");
 				}
@@ -315,7 +328,15 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 
 
 		else if (game.getGameStatus() == GameStatus.SOLVED){
-			JOptionPane.showMessageDialog(null, "Congrats You Win!\n Start a New Game to Play Again!");
+			timer.stopTimer();
+			LeaderBoard.add(timer.getStringTime());
+			save.save(leaderString, LeaderBoard);
+			Collections.sort(LeaderBoard);
+			String x = "";
+			for (int i = 0; i< LeaderBoard.size() && i < 10; i++){
+				x += i + 1 + ": " + LeaderBoard.get(i) + "\n";
+			}
+			JOptionPane.showMessageDialog(null, "Congrats You Win!\n Start a New Game to Play Again!\n LeaderBoards: \n" + x);
 			game.setGameStatus(GameStatus.GAME_DONE);
 		}
 		displayBoard();

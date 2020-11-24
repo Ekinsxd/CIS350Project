@@ -80,7 +80,7 @@ public class SudokuGame implements Serializable {
                 x = 30;
                 break;
             case 1:
-                x = 20;
+                x = 1;
             default:
                 break;
         }
