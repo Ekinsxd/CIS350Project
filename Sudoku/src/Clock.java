@@ -36,6 +36,17 @@ public class Clock {
             t.stop();
         }
 
+        public void restartTimer(){
+            t.restart();
+        }
+
+        public void resetClock(){
+            second = 0;
+            minute = 0;
+            hour = 0;
+            day = 0;
+        }
+
         private void timeHandler(){// no support for days, the tiemr will not count after the game had been closed
             if (second >= 60){
                 second = 0;

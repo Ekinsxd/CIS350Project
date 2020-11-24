@@ -44,7 +44,9 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 	Clock.SimpleClock timer = new Clock.SimpleClock();
 	//retarded way to choose filename but ensures randomness
 	//probably do it with a clock instead
-	String fileName = "SudokuGame" + ((int) (Math.random() * 65535) + 1) + ".ser";
+	String fileName = "SudokuGame" + (Calendar.getInstance().get(Calendar.YEAR)) + "-" + (Calendar.getInstance().get(Calendar.MONTH)) + "-"
+			+ (Calendar.getInstance().get(Calendar.DATE)) + "-" + (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) + "-"
+			+ (Calendar.getInstance().get(Calendar.MINUTE)) + ".ser";
 	String leaderString = "LeaderBoardSave.ser";
 	private ArrayList<String> LeaderBoard = null;
 
@@ -167,9 +169,8 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 					board2[row][col].setEditable(false);
 				}
 			}
-		timer = new Clock.SimpleClock();
-		clock.add(timer);
-		clock.remove(0);
+		timer.restartTimer();
+		timer.resetClock();
 	}
 
 	/*****************************************************************
@@ -330,6 +331,7 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 		else if (game.getGameStatus() == GameStatus.SOLVED){
 			timer.stopTimer();
 			LeaderBoard.add(timer.getStringTime());
+			timer.resetClock();
 			save.save(leaderString, LeaderBoard);
 			Collections.sort(LeaderBoard);
 			String x = "";
@@ -338,6 +340,9 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 			}
 			JOptionPane.showMessageDialog(null, "Congrats You Win!\n Start a New Game to Play Again!\n LeaderBoards: \n" + x);
 			game.setGameStatus(GameStatus.GAME_DONE);
+		}
+		if (game.isFilledBoard(game.getBoard()) && game.getGameStatus() != GameStatus.GAME_DONE){
+			JOptionPane.showMessageDialog(null,"You Filled out the board, but the board is not correect!");
 		}
 		displayBoard();
 	}

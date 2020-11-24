@@ -80,7 +80,7 @@ public class SudokuGame implements Serializable {
                 x = 30;
                 break;
             case 1:
-                x = 1;
+                x = 15;
             default:
                 break;
         }
@@ -152,6 +152,24 @@ public class SudokuGame implements Serializable {
             }
         }
     }
+    /************************************************************
+     * Method that checks if a given Sodokuo game board is valid
+     *
+     * @param board Sudokuo game board to check
+     * @return Returns true if the board is valid,
+     * returns false if the board is false
+     ***********************************************************/
+    public boolean isFilledBoard(final int[][] board) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] == 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 
     /************************************************************
      * Method that checks if a given Sodokuo game board is valid
@@ -217,18 +235,6 @@ public class SudokuGame implements Serializable {
         }
     }
 
-    /************************************************************
-     * Method that undos the previous selection/move made by the
-     * player
-     *
-     * @param row Row number of board space
-     * @param col Column number of board space
-     * @param data Data to add to specifed board space
-     ***********************************************************/
-    private void undoSelect(final int row, final int col, final int data) {
-        board[row][col] = data;
-    }
-
      /************************************************************
      * Method that determies if the board is solved and the
      * player is a winner. GameStatus is updated to solved if
@@ -285,7 +291,7 @@ public class SudokuGame implements Serializable {
             return;
         }
         int[] x  = (int[]) undo.remove(undo.size() - 1);
-        undoSelect(x[0], x[1], x[2]);
+        board[x[0]][x[1]] = x[2];
     }
 
     /************************************************************
