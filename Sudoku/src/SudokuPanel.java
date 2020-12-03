@@ -263,8 +263,6 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-
-
 		if (openSerItem == e.getSource()) {
 			JFileChooser chooser = new JFileChooser();
 			int status = chooser.showOpenDialog(null);

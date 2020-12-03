@@ -74,7 +74,7 @@ public class SudokuGame implements Serializable {
         int x = 0;
         int r;
         int c;
-        for (int i =0; i<10; i++){ //randomize board
+        for (int i = 0; i < 10; i++) { //randomize board
             r = (int) (Math.random() * board_size);
             c = (int) (Math.random() * board_size);
             if (board[r][c] != 0) {
@@ -82,14 +82,14 @@ public class SudokuGame implements Serializable {
                 continue;
             }
             board[r][c] = (int) (Math.random() * board_size);
-            if (!legalMove(r, c, board[r][c])){
+            if (!legalMove(r, c, board[r][c])) {
                 board[r][c] = 0;
                 i--;
                 continue;
             }
-            if (i == board_size){
+            if (i == board_size) {
                 solve(board);
-                if (!validboard(board)){
+                if (!validboard(board)) {
                     reset(board);
                     i = 0;
                     continue;
@@ -153,7 +153,8 @@ public class SudokuGame implements Serializable {
         int subsectionColumnEnd = subsectionColumnStart + 3;
 
         for (int row = subsectionRowStart; row < subsectionRowEnd; row++) {
-            for (int col = subsectionColumnStart; col < subsectionColumnEnd; col++) {
+            for (int col = subsectionColumnStart; col < subsectionColumnEnd;
+                 col++) {
                 if (r != row && c != col) {
                     if (board[row][col] == val) {
                         return false;
@@ -165,17 +166,17 @@ public class SudokuGame implements Serializable {
     }
 
     /************************************************************
-     * Method that checks if a given Sodokuo game board is valid
+     * Method that checks if a given Sodokuo game board is valid.
      *
-     * @param board Sudokuo game board to check
+     * @param board1 Sudokuo game board to check
      * @return Returns true if the board is valid,
      * returns false if the board is false
      ***********************************************************/
 
-    public boolean isFilledBoard(final int[][] board) {
+    public boolean isFilledBoard(final int[][] board1) {
         for (int i = 0; i < board_size; i++) {
             for (int j = 0; j < board_size; j++) {
-                if (board[i][j] == 0) {
+                if (board1[i][j] == 0) {
                     return false;
                 }
             }
@@ -185,17 +186,17 @@ public class SudokuGame implements Serializable {
 
 
     /************************************************************
-     * Method that checks if a given Sodokuo game board is valid
+     * Method that checks if a given Sodokuo game board is valid.
      *
-     * @param board Sudokuo game board to check
+     * @param board1 Sudokuo game board to check
      * @return Returns true if the board is valid,
      * returns false if the board is false
      ***********************************************************/
 
-    public boolean validboard(final int[][] board) {
+    public boolean validboard(final int[][] board1) {
         for (int i = 0; i < board_size; i++) {
             for (int j = 0; j < board_size; j++) {
-                if (!legalMove(i, j, board[i][j])) {
+                if (!legalMove(i, j, board1[i][j])) {
                     return false;
                 }
             }
@@ -204,23 +205,23 @@ public class SudokuGame implements Serializable {
     }
 
     /************************************************************
-     * Method that solves the given Sudoku board
+     * Method that solves the given Sudoku board.
      *
-     * @param board Sudokuo game board to solve
+     * @param board1 Sudokuo game board to solve
      * @return Returns true if the board is solved,
      * returns false if the board is unsolved
      ***********************************************************/
 
-    public boolean solve(final int[][] board) {
+    public boolean solve(final int[][] board1) {
         for (int row = 0; row < board_size; row++) {
             for (int column = 0; column < board_size; column++) {
-                if (board[row][column] == 0) {
+                if (board1[row][column] == 0) {
                     for (int k = 1; k <= max_data; k++) {
-                        board[row][column] = k;
-                        if (validboard(board) && solve(board)) {
+                        board1[row][column] = k;
+                        if (validboard(board1) && solve(board1)) {
                             return true;
                         }
-                        board[row][column] = 0;
+                        board1[row][column] = 0;
                     }
                     return false;
                 }
@@ -230,7 +231,7 @@ public class SudokuGame implements Serializable {
     }
 
     /************************************************************
-     * Method that selects a place on the board and updates it 
+     * Method that selects a place on the board and updates it
      * with a new value. Then tracks the information to the undo
      * list. Finally, it checks if the board is solved.
      *
@@ -255,8 +256,8 @@ public class SudokuGame implements Serializable {
      * Method that determies if the board is solved and the
      * player is a winner. GameStatus is updated to solved if
      * the board is solved.
-     * 
-     * @return Returns true if the board is solved, false if the 
+     *
+     * @return Returns true if the board is solved, false if the
      * board is unsolved
      ***********************************************************/
 
@@ -273,7 +274,7 @@ public class SudokuGame implements Serializable {
     }
 
     /************************************************************
-     * Getter method that returns the game board
+     * Getter method that returns the game board.
      *
      * @return Returns the current game board
      ***********************************************************/
@@ -283,7 +284,7 @@ public class SudokuGame implements Serializable {
     }
 
     /************************************************************
-     * Getter method that returns the initial board
+     * Getter method that returns the initial board.
      *
      * @return Returns the current game board
      ***********************************************************/
@@ -293,7 +294,7 @@ public class SudokuGame implements Serializable {
     }
 
     /************************************************************
-     * Getter method that returns the current game status
+     * Getter method that returns the current game status.
      *
      * @return Returns the current game status
      ***********************************************************/
@@ -303,7 +304,7 @@ public class SudokuGame implements Serializable {
     }
 
     /************************************************************
-     * Setter method that changes the current game status
+     * Setter method that changes the current game status.
      *
      * @param stat Status of the game you want to set to
      ***********************************************************/
@@ -326,15 +327,15 @@ public class SudokuGame implements Serializable {
     }
 
     /************************************************************
-     * Method that resets the game board to blank
+     * Method that resets the game board to blank.
      *
-     * @param board Board to be reset
+     * @param board1 Board to be reset
      ***********************************************************/
 
-    private void reset(int[][] board) {
+    private void reset(final int[][] board1) {
         for (int i = 0; i < board_size; i++) {
             for (int j = 0; j < board_size; j++) {
-                board[i][j] = 0;
+                board1[i][j] = 0;
             }
         }
     }
