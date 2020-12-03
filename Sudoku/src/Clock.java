@@ -60,22 +60,6 @@ public class Clock {
                 hour = 0;
                 day++;
             }
-        }
-
-        public String getStringTime() {
-            return stringTime;
-        }
-
-        @Override
-        public void paintComponent(Graphics v) {
-            super.paintComponent(v);
-//            Calendar rite = Calendar.getInstance();
-//            hour = rite.get(Calendar.HOUR_OF_DAY);
-//            minute = rite.get(Calendar.MINUTE);
-//            second = rite.get(Calendar.SECOND);
-//            hour -= startHour;
-//            minute -= startMinute;
-//            second -= startSecond;
             if (hour < 10) {
                 this.strHour = "0";
             }
@@ -95,6 +79,24 @@ public class Clock {
                 this.strSecond = "";
             }
             stringTime = (day + ":" + strHour + hour + ":" + strMinute + minute + ":" + strSecond + second);
+
+        }
+
+        public String getStringTime() {
+            return stringTime;
+        }
+
+        @Override
+        public void paintComponent(Graphics v) {
+            super.paintComponent(v);
+//            Calendar rite = Calendar.getInstance();
+//            hour = rite.get(Calendar.HOUR_OF_DAY);
+//            minute = rite.get(Calendar.MINUTE);
+//            second = rite.get(Calendar.SECOND);
+//            hour -= startHour;
+//            minute -= startMinute;
+//            second -= startSecond;
+            timeHandler();
             v.setColor(Color.BLACK);
             Font Font1 = new Font("ComicSans", Font.BOLD, 18);
             v.setFont(Font1);

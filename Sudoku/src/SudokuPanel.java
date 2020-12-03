@@ -42,7 +42,7 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 
 	int BOARD_SIZE = 9;
 	Clock.SimpleClock timer = new Clock.SimpleClock();
-	//retarded way to choose filename but ensures randomness
+	//choose filename ensures randomness
 	//probably do it with a clock instead
 	String fileName = "SudokuGame" + (Calendar.getInstance().get(Calendar.YEAR)) + "-" + (Calendar.getInstance().get(Calendar.MONTH)) + "-"
 			+ (Calendar.getInstance().get(Calendar.DATE)) + "-" + (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) + "-"
@@ -57,20 +57,28 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 	public SudokuPanel() {
 
 		helper = new JTextField("");
-		int diff = Integer.parseInt(JOptionPane.showInputDialog(helper,
-				"Type in a Difficulty (1 = Easy, 2 = Medium, 3 = Hard):"));
-		while (diff != 2 && diff != 1 && diff != 3 && diff != 666){
+		int diff = 0;
+		try {
 			diff = Integer.parseInt(JOptionPane.showInputDialog(helper,
 					"Type in a Difficulty (1 = Easy, 2 = Medium, 3 = Hard):"));
+		}
+		catch (Exception e){
+		}
+
+		while (diff != 2 && diff != 1 && diff != 3 && diff != 666){
+			try {
+				diff = Integer.parseInt(JOptionPane.showInputDialog(helper,
+						"Type in a Difficulty (1 = Easy, 2 = Medium, 3 = Hard):"));
+			}
+			catch (Exception e){
+
+			}
 		}
 
 		game = new SudokuGame(diff);
 		save = new SavedGame();
 
-		try {
-			LeaderBoard = (ArrayList<String>) save.load(leaderString);
-		}
-		catch (NullPointerException e) {
+		if ((LeaderBoard = (ArrayList<String>) save.load(leaderString)) == null){
 			LeaderBoard = new ArrayList<String>();
 		}
 
@@ -93,7 +101,6 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 		clock = new JPanel();
 
 		this.setTitle(fileName);
-
 		initBoardPanel();
 		displayBoard();
 
@@ -153,17 +160,21 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 		bottom.add (hintButton);
 		bottom.add (giveupButton);
 		bottom.add (quitButton);
-
 	}
 
+	/*****************************************************************
+	 Sets the correct buttons to editable Jtextfields
+	 *****************************************************************/
+
 	private  void setEditable(){
-		for (int row = 0; row < BOARD_SIZE; row++)
+		for (int row = 0; row < BOARD_SIZE; row++) {
 			for (int col = 0; col < BOARD_SIZE; col++) {
 				board2[row][col].setEditable(false);
-				if (game.getInitBoard()[row][col] == 1){
+				if (game.getInitBoard()[row][col] == 1) {
 					board2[row][col].setEditable(true);
 				}
 			}
+		}
 	}
 
 	/*****************************************************************
@@ -171,14 +182,15 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 	 *****************************************************************/
 
 	private void resetBoardPanel(){
-		for (int row = 0; row < BOARD_SIZE; row++)
+		for (int row = 0; row < BOARD_SIZE; row++) {
 			for (int col = 0; col < BOARD_SIZE; col++) {
 				board2[row][col].setEditable(true);
 				board2[row][col].setText("");
-				if (game.getBoard()[row][col] != 0){
+				if (game.getBoard()[row][col] != 0) {
 					board2[row][col].setEditable(false);
 				}
 			}
+		}
 		timer.restartTimer();
 		timer.resetClock();
 	}
@@ -189,15 +201,6 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 
 	private void displayBoard() {
 		iBoard = game.getBoard();
-
-		if (game.getGameStatus() == GameStatus.GIVE_UP){
-			if (game.solve(game.getBoard()));
-			else
-			{
-				game.copyBoard(game.getBoard(), iBoard);
-				game.setGameStatus(GameStatus.IN_PROGRESS);
-			}
-		}
 
 		for (int r = 0; r < game.getBoard().length; r++)
 			for (int c = 0; c < game.getBoard().length; c++) {
@@ -210,7 +213,7 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 					} else if (iBoard[r][c] != 0) {
 						board2[r][c].setBackground(Color.red);
 					}
-				} else if (game.getGameStatus() != GameStatus.GAME_DONE && game.getGameStatus() != GameStatus.GIVE_UP) {
+				} else if (game.getGameStatus() != GameStatus.GAME_DONE || game.getGameStatus() != GameStatus.GIVE_UP) {
 					board2[r][c].setBackground(Color.white);
 				}
 				switch (iBoard[r][c]) {
@@ -245,8 +248,6 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 					case 9:
 						board2[r][c].setText("9");
 						break;
-
-
 				}
 			}
 		if (game.getGameStatus() != GameStatus.GAME_DONE && game.getGameStatus() != GameStatus.GIVE_UP){
@@ -281,32 +282,45 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 			for (int c = 0; c < game.getBoard().length; c++)
 				if (board2[r][c] == e.getSource() && game.getGameStatus() != GameStatus.SOLVED
 						&& game.getGameStatus() != GameStatus.GIVE_UP && game.getGameStatus() != GameStatus.GAME_DONE) {
-					if (board2[r][c].getText().equals("")){
-						game.select(r, c, 0);
+					try{
+						if (board2[r][c].getText().equals("")){
+							game.select(r, c, 0);
+						}
+						else if(Integer.parseInt(board2[r][c].getText()) <= 9 && Integer.parseInt(board2[r][c].getText()) > 0){
+							game.select(r, c, Integer.parseInt(board2[r][c].getText()));
+						}
+						else {
+							board2[r][c].setText("");
+							game.select(r, c, 0);
+						}
 					}
-					else if(Integer.parseInt(board2[r][c].getText()) <= 9 && Integer.parseInt(board2[r][c].getText()) > 0){
-						game.select(r, c, Integer.parseInt(board2[r][c].getText()));
-					}
-					else {
+					catch(Exception err){
 						board2[r][c].setText("");
-						game.select(r, c, 0);
 					}
 				}
 
 		if (newGameButton == e.getSource()){
 			helper = new JTextField("");
-			int diff = Integer.parseInt(JOptionPane.showInputDialog(helper, "Type in a Difficulty (1 = Easy, 2 = Medium, 3 = Hard):"));
+			int diff = 0;
+			try {
+				diff = Integer.parseInt(JOptionPane.showInputDialog(helper,
+						"Type in a Difficulty (1 = Easy, 2 = Medium, 3 = Hard):"));
+			}
+			catch (Exception er){
+			}
+
 			while (diff != 2 && diff != 1 && diff != 3 && diff != 666){
-				diff = Integer.parseInt(JOptionPane.showInputDialog(helper, "Type in a Difficulty (1 = Easy, 2 = Medium, 3 = Hard:"));
+				try {
+					diff = Integer.parseInt(JOptionPane.showInputDialog(helper,
+							"Type in a Difficulty (1 = Easy, 2 = Medium, 3 = Hard):"));
+				}
+				catch (Exception er){
+
+				}
 			}
 			game = new SudokuGame(diff);
 			resetBoardPanel();
 		}
-
-		//else if (loadGameButton == e.getSource()){
-
-			//board2 = (JTextField[][]) save.load(fileName);
-		//}
 
 		else if (quitButton == e.getSource()){
 			System.exit(0);
@@ -330,6 +344,7 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 					game.setGameStatus(GameStatus.GIVE_UP);
 					timer.stopTimer();
 					displayBoard();
+					game.setGameStatus(GameStatus.GAME_DONE);
 					JOptionPane.showMessageDialog(null, "Here is the solved board!\n Start a New Game to Play Again!");
 				}
 				else {
@@ -340,8 +355,8 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 
 
 		else if (game.getGameStatus() == GameStatus.SOLVED){
-			timer.stopTimer();
 			LeaderBoard.add(timer.getStringTime());
+			timer.stopTimer();
 			timer.resetClock();
 			save.save(leaderString, LeaderBoard);
 			Collections.sort(LeaderBoard);
@@ -352,9 +367,10 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 			JOptionPane.showMessageDialog(null, "Congrats You Win!\n Start a New Game to Play Again!\n LeaderBoards: \n" + x);
 			game.setGameStatus(GameStatus.GAME_DONE);
 		}
-		if (game.isFilledBoard(game.getBoard()) && game.getGameStatus() != GameStatus.GAME_DONE){
+		if (game.isFilledBoard(game.getBoard()) && (game.getGameStatus() != GameStatus.GAME_DONE)){
 			JOptionPane.showMessageDialog(null,"You Filled out the board, but the board is not correect!");
 		}
 		displayBoard();
 	}
+
 }
