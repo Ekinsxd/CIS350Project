@@ -6,6 +6,7 @@
  @author Ethan Tran, Matthew Davis, and Cole Hyink
  @version 2020.11.5
  *****************************************************************/
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -50,7 +51,7 @@ public class SudokuPanel extends JFrame
 			+ (Calendar.getInstance().get(Calendar.DATE)) + "-" + (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) + "-"
 			+ (Calendar.getInstance().get(Calendar.MINUTE)) + ".ser";
 	String leaderString = "LeaderBoardSave.ser";
-	private ArrayList<String> LeaderBoard = null;
+	private ArrayList<String> LeaderBoard;
 
 	/*****************************************************************
 	 Constructor creates a game of sudoku with the selected difficulty

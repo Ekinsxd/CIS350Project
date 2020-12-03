@@ -1,10 +1,4 @@
 import java.io.*;
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 class SavedGame implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -15,17 +9,12 @@ class SavedGame implements Serializable {
     }
 
     public void save(String filename, Object o) {
-        //SavedGame gameSave = new SavedGame(game);
-        //String filename = "savedgame.txt";
         try {
             FileOutputStream file = new FileOutputStream(filename); 
-            ObjectOutputStream out = new ObjectOutputStream(file); 
-
+            ObjectOutputStream out = new ObjectOutputStream(file);
             out.writeObject(o);
-
             out.close();
-
-            System.out.println("Object has been serialized\n" + "Data before Deserialization.");
+            //System.out.println("Object has been serialized\n" + "Data before Deserialization.");
         }
 
         catch (IOException ex) { 
@@ -34,8 +23,6 @@ class SavedGame implements Serializable {
     }
 
     public Object load(String filename) {
-        //SavedGame gameSave;
-        //String filename = "savedgame.txt";
         Object LoadedGame = null;
         try { 
             // Reading the object from a file 
@@ -46,7 +33,7 @@ class SavedGame implements Serializable {
             LoadedGame = in.readObject();
   
             in.close();
-            System.out.println("Object has been deserialized\n" + "Data after Deserialization.");
+            //System.out.println("Object has been deserialized\n" + "Data after Deserialization.");
         }
 
         catch (IOException ex) { 

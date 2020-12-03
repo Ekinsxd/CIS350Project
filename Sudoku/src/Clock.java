@@ -7,7 +7,7 @@ import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 
 public class Clock {
-    static class SimpleClock extends JPanel implements Serializable {
+    public static class SimpleClock extends JPanel implements Serializable {
         String stringTime;
         int hour, minute, second, day;
         Timer t;
@@ -17,6 +17,7 @@ public class Clock {
         10 so it stays a consistent 00:00:00 format.
         or else it'll be 0:0:0 if all below 10
          */
+
         String strHour = "";
         String strMinute = "";
         String strSecond = "";
@@ -89,13 +90,6 @@ public class Clock {
         @Override
         public void paintComponent(Graphics v) {
             super.paintComponent(v);
-//            Calendar rite = Calendar.getInstance();
-//            hour = rite.get(Calendar.HOUR_OF_DAY);
-//            minute = rite.get(Calendar.MINUTE);
-//            second = rite.get(Calendar.SECOND);
-//            hour -= startHour;
-//            minute -= startMinute;
-//            second -= startSecond;
             timeHandler();
             v.setColor(Color.BLACK);
             Font Font1 = new Font("ComicSans", Font.BOLD, 18);

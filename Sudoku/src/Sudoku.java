@@ -17,8 +17,6 @@ public class Sudoku {
     {
         JFrame frame = new SudokuPanel();
         frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-        //frame.getContentPane().add(frame);
-
         frame.setSize(600,675);
         frame.setVisible(true);
     }
