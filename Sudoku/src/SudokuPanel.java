@@ -15,7 +15,8 @@ import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.*;
 
-public class SudokuPanel extends JFrame implements ActionListener, Serializable {
+public class SudokuPanel extends JFrame
+		implements ActionListener, Serializable {
 
 	private JTextField[][] board2;
 	private int[][] iBoard;
@@ -31,7 +32,7 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 	private JPanel clock;
 
 	/**
-	 * Holds menu bar
+	 * Holds menu bar.
 	 */
 	private JMenuBar menus;
 	private JMenu fileMenu;
@@ -40,7 +41,8 @@ public class SudokuPanel extends JFrame implements ActionListener, Serializable 
 	private SudokuGame game;
 	private SavedGame save;
 
-	int BOARD_SIZE = 9;
+	private final int BOARD_SIZE = 9;
+
 	Clock.SimpleClock timer = new Clock.SimpleClock();
 	//choose filename ensures randomness
 	//probably do it with a clock instead
