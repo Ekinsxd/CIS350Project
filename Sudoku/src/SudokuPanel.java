@@ -19,38 +19,66 @@ import java.util.*;
 public class SudokuPanel extends JFrame
 		implements ActionListener, Serializable {
 
+	/* All the buttons the boards */
 	private JTextField[][] board2;
+	
+	/* Temporay board to work with in memory for the panel */
 	private int[][] iBoard;
 
+	/* Button to Quit Game */
 	private final JButton quitButton;
+	
+	/* Textfield for inside prompts */
 	private JTextField helper;
 
+	/* Undo Button */
 	private final JButton undoButton;
+	
+	/* Hint Button */
 	private final JButton hintButton;
+	
+	/* Give Up Button */
 	private final JButton giveupButton;
+	
+	/* New Game Button */
 	private final JButton newGameButton;
 
+	/* Panel for the clock */
 	private JPanel clock;
 
-	/**
-	 * Holds menu bar.
-	 */
+	/* Holds menu bar */
 	private JMenuBar menus;
+	
+	/* Pull down menu */
 	private JMenu fileMenu;
+	
+	/* Load Game */
 	private JMenuItem openSerItem;
 
+	/* Sudoku Game */
 	private SudokuGame game;
+	
+	/* Save Game */
 	private SavedGame save;
 
+	/* Size of the Sudoku Board */
 	private final int BOARD_SIZE = 9;
 
+	/* Timer for Sudoku Game */
 	Clock.SimpleClock timer = new Clock.SimpleClock();
+	
+	
 	//choose filename ensures randomness
 	//probably do it with a clock instead
+	/* Filename for saving or loading Sudoku game */
 	String fileName = "SudokuGame" + (Calendar.getInstance().get(Calendar.YEAR)) + "-" + (Calendar.getInstance().get(Calendar.MONTH)) + "-"
 			+ (Calendar.getInstance().get(Calendar.DATE)) + "-" + (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) + "-"
 			+ (Calendar.getInstance().get(Calendar.MINUTE)) + ".ser";
+	
+	/* Leaderboard Text */
 	String leaderString = "LeaderBoardSave.ser";
+	
+	/* Leaderboard List */
 	private ArrayList<String> LeaderBoard;
 
 	/*****************************************************************
