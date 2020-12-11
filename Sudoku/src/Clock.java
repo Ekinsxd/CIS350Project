@@ -14,22 +14,18 @@ import java.awt.event.ActionEvent;
 *****************************************************************/
 public class Clock {
     public static class SimpleClock extends JPanel implements Serializable {
-        /* A string of the current time on the timer*/
+        /*Holds the hour, minute, second, day for printing on screen*/
         String stringTime;
         
-        /* Variables for the hour, minute, second, and day for the timer*/
+        /*Variables used for storing the current time from timer*/
         int hour, minute, second, day;
         
-        /* Timer to keep track of time spent on current game board*/
+        /*Timer to keep track of time spent on current game board*/
         Timer t;
-
-        /*
-        strHour, strMinute, strSecond adds a 0 if it's less than
-        10 so it stays a consistent 00:00:00 format.
-        or else it'll be 0:0:0 if all below 10
-         */
         
-        /* String of the current timer hour*/
+        /*strHour, strMinute, strSecond will add a 0 if the time is
+        * below 10, otherwise it won't contain anything. For a consistent
+        * 00:00:00 format*/
         String strHour = "";
         
         /* String of the current timer minute*/
@@ -41,7 +37,7 @@ public class Clock {
         /************************************************************
         * Constructor that creates the timer and starts the timer
         ***********************************************************/
-        SimpleClock() {  //make a timer to update every 1000 milliseconds
+        SimpleClock() {
             t = new Timer(1000, new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     repaint();
@@ -67,7 +63,7 @@ public class Clock {
         }
 
         /************************************************************
-        * Method to reset the timer clcok
+        * Method to reset the timer clock
         ***********************************************************/
         public void resetClock(){
             second = 0;
@@ -79,7 +75,7 @@ public class Clock {
         /************************************************************
         * Method that ensures the the time is displayed correctly
         ***********************************************************/
-        private void timeHandler(){// no support for days, the tiemr will not count after the game had been closed
+        private void timeHandler(){
             if (second >= 60){
                 second = 0;
                 minute++;

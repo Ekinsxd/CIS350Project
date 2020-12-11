@@ -35,11 +35,11 @@ class SavedGame implements Serializable {
     public Object load(String filename) {
         Object LoadedGame = null;
         try { 
-            // Reading the object from a file 
+            // Reading the object from the file
             FileInputStream file = new FileInputStream (filename); 
             ObjectInputStream in = new ObjectInputStream(file); 
   
-            // Casts .ser file contents to object
+            // Casts file contents to object
             LoadedGame = in.readObject();
   
             in.close();
