@@ -1,13 +1,27 @@
 import java.io.*;
-
+/*****************************************************************
+* Class that controls the saving and loading of a Sudoku game.
+* @author Ethan Tran, Matthew Davis, and Cole Hyink
+* @version 2020.12.10
+*****************************************************************/
 class SavedGame implements Serializable {
+    /* Serial ID for Loading and Saving */
     private static final long serialVersionUID = 1L;
     //transient SudokuGame game;
 
+/*****************************************************************
+* Construtor for SaveGame
+*****************************************************************/
     public SavedGame() {
         //SudokuGame savedGame = inputGame;
     }
 
+/*****************************************************************
+* Saves the game with the given filename.
+*
+* @param filename desired name to save file to
+* @param o Sudoku game board
+*****************************************************************/
     public void save(String filename, Object o) {
         try {
             FileOutputStream file = new FileOutputStream(filename); 
@@ -22,6 +36,11 @@ class SavedGame implements Serializable {
         } 
     }
 
+/*****************************************************************
+* Loads a Sudoku game from the given filename.
+*
+* @param filename name of file to load from
+*****************************************************************/
     public Object load(String filename) {
         Object LoadedGame = null;
         try { 
