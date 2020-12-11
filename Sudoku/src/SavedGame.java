@@ -7,14 +7,6 @@ import java.io.*;
 class SavedGame implements Serializable {
     /* Serial ID for Loading and Saving */
     private static final long serialVersionUID = 1L;
-    //transient SudokuGame game;
-
-/*****************************************************************
-* Construtor for SaveGame
-*****************************************************************/
-    public SavedGame() {
-        //SudokuGame savedGame = inputGame;
-    }
 
 /*****************************************************************
 * Saves the game with the given filename.
@@ -28,10 +20,9 @@ class SavedGame implements Serializable {
             ObjectOutputStream out = new ObjectOutputStream(file);
             out.writeObject(o);
             out.close();
-            //System.out.println("Object has been serialized\n" + "Data before Deserialization.");
         }
 
-        catch (IOException ex) { 
+        catch (IOException ex) {
             System.out.println("IOException is caught"); 
         } 
     }
@@ -48,11 +39,10 @@ class SavedGame implements Serializable {
             FileInputStream file = new FileInputStream (filename); 
             ObjectInputStream in = new ObjectInputStream(file); 
   
-            // Method for deserialization of object, cast to game type
+            // Casts .ser file contents to object
             LoadedGame = in.readObject();
   
             in.close();
-            //System.out.println("Object has been deserialized\n" + "Data after Deserialization.");
         }
 
         catch (IOException ex) { 
